@@ -1,0 +1,1 @@
+v12: replaced heavy-attack sprites with cleaned transparent kick art from the new images; removed bundled placeholder/fallback sounds so the game now uses ONLY files from assets/audio/. Add your own WAV files there with the expected names.

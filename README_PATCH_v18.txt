@@ -1,0 +1,1 @@
+v18: crouch no longer scales the fighter down. Crouch sprites are replaced with full-size bent-leg poses, draw scale stays at 1.0, and only a small downward offset is used. Lower crouch hitbox from v17 is preserved.

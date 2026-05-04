@@ -102,7 +102,7 @@ function loadAssets() {
 
 loadAssets();
 
-const AUDIO_VERSION = "v13_real_audio_only_" + Date.now();
+const AUDIO_VERSION = "v20_real_audio_only_" + Date.now();
 
 const AUDIO_PATHS = {
   hitLight: "assets/audio/hit_light.wav",
@@ -113,137 +113,65 @@ const AUDIO_PATHS = {
 
 const sounds = {};
 let audioUnlocked = false;
-let audioContext = null;
-
-function getAudioContext() {
-  if (!audioContext) {
-    const Ctx = window.AudioContext || window.webkitAudioContext;
-    if (Ctx) audioContext = new Ctx();
-  }
-  return audioContext;
-}
-
-function fallbackTone(name) {
-  const ctxAudio = getAudioContext();
-  if (!ctxAudio) return;
-
-  const map = {
-    hitLight: [620, 0.08],
-    hitHeavy: [160, 0.13],
-    specialGuf: [330, 0.22],
-    specialNoize: [760, 0.20],
-  };
-  const [freq, dur] = map[name] || [440, 0.1];
-
-  const osc = ctxAudio.createOscillator();
-  const gain = ctxAudio.createGain();
-  osc.type = "square";
-  osc.frequency.value = freq;
-  gain.gain.setValueAtTime(0.11, ctxAudio.currentTime);
-  gain.gain.exponentialRampToValueAtTime(0.001, ctxAudio.currentTime + dur);
-  osc.connect(gain);
-  gain.connect(ctxAudio.destination);
-  osc.start();
-  osc.stop(ctxAudio.currentTime + dur);
-}
 
 function loadSounds() {
   for (const [key, src] of Object.entries(AUDIO_PATHS)) {
-    const audio = new Audio();
+    const audio = new Audio(src + "?cache=" + AUDIO_VERSION);
     audio.preload = "auto";
-    audio.volume = 0.85;
-    audio.src = src;
+    audio.volume = 0.9;
 
     audio.addEventListener("canplaythrough", () => {
-      console.log("[audio loaded]", key, src);
+      console.log("[REAL AUDIO LOADED]", key, audio.src);
     }, { once: true });
 
     audio.addEventListener("error", () => {
-      console.warn("[audio failed]", key, src, audio.error);
+      console.error("[REAL AUDIO FAILED — file not found or bad wav]", key, audio.src);
     });
 
     sounds[key] = audio;
   }
 }
 
-// Browsers often require a REAL play() call inside a user gesture.
-// So we do muted play/pause once on first key/click/touch.
 function unlockAudio() {
   if (audioUnlocked) return;
   audioUnlocked = true;
 
-  console.log("[audio unlock] trying to unlock sounds");
-  try {
-    const ctxAudio = getAudioContext();
-    if (ctxAudio && ctxAudio.state === "suspended") ctxAudio.resume();
-  } catch (e) {}
-
+  console.log("[AUDIO UNLOCKED — real files only]");
   for (const [key, audio] of Object.entries(sounds)) {
     try {
-      audio.muted = true;
-      audio.currentTime = 0;
-      const p = audio.play();
-
-      if (p && typeof p.then === "function") {
-        p.then(() => {
-          audio.pause();
-          audio.currentTime = 0;
-          audio.muted = false;
-          console.log("[audio unlocked]", key);
-        }).catch((err) => {
-          audio.muted = false;
-          console.warn("[audio unlock failed]", key, err);
-        });
-      } else {
-        audio.pause();
-        audio.currentTime = 0;
-        audio.muted = false;
-      }
-    } catch (err) {
-      audio.muted = false;
-      console.warn("[audio unlock exception]", key, err);
+      audio.load();
+      console.log("[AUDIO FILE REQUESTED]", key, audio.src);
+    } catch (e) {
+      console.error("[AUDIO LOAD EXCEPTION]", key, e);
     }
   }
 }
 
 function playSound(name) {
-  const base = sounds[name];
-
-  // WebAudio fallback: always gives a sound, even if WAV is blocked/missing.
-  // If WAV works, the fallback is very quiet/short and just reinforces feedback.
   if (!audioUnlocked) {
-    console.warn("[audio not unlocked yet]", name);
+    console.warn("[AUDIO BLOCKED UNTIL CLICK/KEY]", name);
     return;
   }
 
-  let playedWav = false;
+  const base = sounds[name];
+  if (!base) {
+    console.error("[AUDIO OBJECT MISSING]", name);
+    return;
+  }
 
-  if (base) {
-    try {
-      const audio = new Audio(base.src);
-      audio.volume = base.volume;
-      audio.currentTime = 0;
-      audio.play().then(() => {
-        playedWav = true;
-      }).catch((err) => {
-        console.warn("[audio play failed, using fallback]", name, base.src, err);
-        fallbackTone(name);
-      });
-      // If browser silently doesn't play fast enough, fallback helps immediately.
-      setTimeout(() => {
-        if (!playedWav) fallbackTone(name);
-      }, 60);
-    } catch (err) {
-      console.warn("[audio play exception, using fallback]", name, err);
-      fallbackTone(name);
-    }
-  } else {
-    console.warn("[audio missing object, using fallback]", name);
-    fallbackTone(name);
+  try {
+    const audio = base.cloneNode();
+    audio.volume = base.volume;
+    audio.play().catch((err) => {
+      console.error("[REAL AUDIO PLAY FAILED]", name, base.src, err);
+    });
+  } catch (err) {
+    console.error("[REAL AUDIO EXCEPTION]", name, err);
   }
 }
 
 loadSounds();
+console.log("[BUILD] v20 REAL AUDIO ONLY — no 8bit fallback sounds");
 
 document.addEventListener("pointerdown", unlockAudio, { once: true });
 document.addEventListener("click", unlockAudio, { once: true });
@@ -771,12 +699,18 @@ function special(attacker) {
 }
 
 function dealDamage(target, amount, dir, knock) {
-  target.hp = Math.max(0, target.hp - amount);
-  damagePopups.push({ x: target.x, y: target.y - 145, text: "-" + amount, life: 34 });
-  target.hitStun = 0.24;
-  target.vx = dir * knock;
-  target.vy = -4;
-  GAME.cameraShake = Math.max(GAME.cameraShake, amount * 0.55);
+  const finalAmount = target.isCrouching ? Math.ceil(amount / 2) : amount;
+  target.hp = Math.max(0, target.hp - finalAmount);
+  damagePopups.push({
+    x: target.x,
+    y: target.y - 145,
+    text: target.isCrouching ? "-" + finalAmount + " BLOCK" : "-" + finalAmount,
+    life: 34
+  });
+  target.hitStun = target.isCrouching ? 0.14 : 0.24;
+  target.vx = dir * (target.isCrouching ? knock * 0.45 : knock);
+  target.vy = target.isCrouching ? -1.2 : -4;
+  GAME.cameraShake = Math.max(GAME.cameraShake, finalAmount * 0.55);
 }
 
 function updateProjectiles() {
@@ -1028,14 +962,6 @@ function pressAction(action, isDown) {
 
 window.addEventListener("keydown", (e) => {
   unlockAudio();
-
-  // Debug: press T to test all connected sounds.
-  if (e.code === "KeyT") {
-    playSound("hitLight");
-    setTimeout(() => playSound("hitHeavy"), 250);
-    setTimeout(() => playSound("specialGuf"), 500);
-    setTimeout(() => playSound("specialNoize"), 800);
-  }
   if (["KeyA","KeyD","KeyW","KeyS","KeyJ","KeyK","KeyL","Space","ArrowLeft","ArrowRight","ArrowUp","ArrowDown","ArrowDown"].includes(e.code) || ["ArrowLeft","ArrowRight","ArrowUp","ArrowDown"].includes(e.key)) {
     e.preventDefault();
   }

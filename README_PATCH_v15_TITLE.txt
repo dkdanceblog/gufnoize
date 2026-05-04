@@ -1,0 +1,1 @@
+v15: стартовая заставка заменена на новый титульный экран retro_arcade_battle_showdown_poster.png. Файл записан в assets/ui/title_screen.png и дублирован в assets/title/title_screen.png для совместимости.

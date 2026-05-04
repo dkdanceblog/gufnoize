@@ -14,16 +14,17 @@
     <canvas id="game" width="1280" height="720"></canvas>
 
     <div id="touch-controls" aria-label="touch controls">
-      <div class="touch-left">
-        <button data-key="left">←</button>
-        <button data-key="right">→</button>
-        <button data-key="jump">↑</button>
-        <button data-key="crouch">↓</button>
+      <div class="touch-pad" aria-label="movement controls">
+        <button class="pad-up" data-key="jump">↑</button>
+        <button class="pad-left" data-key="left">←</button>
+        <button class="pad-down" data-key="crouch">↓</button>
+        <button class="pad-right" data-key="right">→</button>
       </div>
-      <div class="touch-right">
-        <button data-key="light">J</button>
-        <button data-key="heavy">K</button>
-        <button data-key="special">L</button>
+
+      <div class="touch-actions" aria-label="attack controls">
+        <button class="act-light" data-key="light">J</button>
+        <button class="act-heavy" data-key="heavy">K</button>
+        <button class="act-special" data-key="special">L</button>
       </div>
     </div>
   </div>
