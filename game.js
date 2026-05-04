@@ -102,13 +102,14 @@ function loadAssets() {
 
 loadAssets();
 
-const AUDIO_VERSION = "v20_real_audio_only_" + Date.now();
+const AUDIO_VERSION = "v25_mp3_audio_only_" + Date.now();
 
 const AUDIO_PATHS = {
-  hitLight: "assets/audio/hit_light.wav",
-  hitHeavy: "assets/audio/hit_heavy.wav",
-  specialGuf: "assets/audio/special_guf.wav",
-  specialNoize: "assets/audio/special_noize.wav",
+  hitLight: "assets/audio/hit_light.mp3",
+  hitHeavy: "assets/audio/hit_heavy.mp3",
+  specialGuf: "assets/audio/special_guf.mp3",
+  specialNoize: "assets/audio/special_noize.mp3",
+  battleMusic: "assets/audio/battle_music.mp3",
 };
 
 const sounds = {};
@@ -118,7 +119,8 @@ function loadSounds() {
   for (const [key, src] of Object.entries(AUDIO_PATHS)) {
     const audio = new Audio(src + "?cache=" + AUDIO_VERSION);
     audio.preload = "auto";
-    audio.volume = 0.9;
+    audio.volume = key === "battleMusic" ? 0.22 : 0.9;
+    audio.loop = key === "battleMusic";
 
     audio.addEventListener("canplaythrough", () => {
       console.log("[REAL AUDIO LOADED]", key, audio.src);
@@ -170,8 +172,34 @@ function playSound(name) {
   }
 }
 
+function startBattleMusic() {
+  if (!audioUnlocked) return;
+  const music = sounds.battleMusic;
+  if (!music) return;
+
+  try {
+    music.volume = 0.22;
+    music.loop = true;
+    music.play().catch((err) => {
+      console.warn("[BATTLE MUSIC PLAY FAILED]", music.src, err);
+    });
+  } catch (err) {
+    console.warn("[BATTLE MUSIC EXCEPTION]", err);
+  }
+}
+
+function stopBattleMusic() {
+  const music = sounds.battleMusic;
+  if (!music) return;
+
+  try {
+    music.pause();
+    music.currentTime = 0;
+  } catch (err) {}
+}
+
 loadSounds();
-console.log("[BUILD] v20 REAL AUDIO ONLY — no 8bit fallback sounds");
+console.log("[BUILD] v25 MP3 AUDIO ONLY — no fallback sounds");
 
 document.addEventListener("pointerdown", unlockAudio, { once: true });
 document.addEventListener("click", unlockAudio, { once: true });
@@ -248,6 +276,7 @@ function resetRound() {
   GAME.roundStartedAt = performance.now();
   GAME.winner = "";
   GAME.cameraShake = 0;
+  startBattleMusic();
 }
 
 function makeFighter(data, x, y, dir, isPlayer) {
@@ -507,6 +536,7 @@ function updateFight(dt) {
   if (player.hp <= 0 || bot.hp <= 0 || GAME.timeLeft <= 0) {
     if (player.hp === bot.hp) GAME.winner = "НИЧЬЯ";
     else GAME.winner = player.hp > bot.hp ? player.data.name : bot.data.name;
+    stopBattleMusic();
     GAME.state = "end";
   }
 }
@@ -640,7 +670,8 @@ function attack(attacker, target, type) {
   if (attacker.attackCooldown > 0) return;
 
   const damage = type === "light" ? 5 : 10;
-  const reach = type === "light" ? 190 : 230;
+  // Close-combat melee range: punches/kicks should only connect near the opponent.
+  const reach = type === "light" ? 86 : 104;
   const h = type === "light" ? 68 : 58;
 
   attacker.attackCooldown = type === "light" ? 0.34 : 0.56;
@@ -650,7 +681,7 @@ function attack(attacker, target, type) {
   playSound(type === "light" ? "hitLight" : "hitHeavy");
 
   const hitbox = {
-    x: attacker.dir === 1 ? attacker.x + 10 : attacker.x - reach - 10,
+    x: attacker.dir === 1 ? attacker.x + 34 : attacker.x - reach - 34,
     y: type === "light" ? attacker.y - 158 : attacker.y - 88,
     w: reach,
     h,
@@ -998,6 +1029,7 @@ window.addEventListener("keydown", (e) => {
       GAME.state = "fight";
     }
     if (e.key === "Escape") {
+      stopBattleMusic();
       GAME.state = "title";
       GAME.selectedPlayer = null;
       GAME.selectedStage = null;
@@ -1083,6 +1115,7 @@ document.querySelectorAll("#touch-controls button").forEach((btn) => {
 });
 
 function loop(now) {
+  updateTouchControlsVisibility();
   const dt = Math.min(0.033, (now - GAME.lastTime) / 1000 || 0.016);
   GAME.lastTime = now;
   GAME.lastDt = dt;
@@ -1103,3 +1136,6 @@ function loop(now) {
 }
 
 requestAnimationFrame(loop);
+
+window.addEventListener("resize", updateTouchControlsVisibility);
+updateTouchControlsVisibility();

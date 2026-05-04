@@ -74,7 +74,11 @@ canvas {
 }
 
 
-/* ===== v22 mobile UI fix ===== */
+/* ===== v25 mobile controls: show only in fight, compact ===== */
+#touch-controls {
+  display: none;
+}
+
 @media (pointer: coarse) {
   html, body {
     overscroll-behavior: none;
@@ -87,30 +91,25 @@ canvas {
     padding:
       max(8px, env(safe-area-inset-top))
       0
-      calc(168px + max(8px, env(safe-area-inset-bottom)))
+      calc(122px + max(8px, env(safe-area-inset-bottom)))
       0;
   }
 
   canvas {
-    width: min(100vw, calc((100vh - 188px - env(safe-area-inset-bottom)) * 16 / 9));
-    height: min(calc(100vh - 188px - env(safe-area-inset-bottom)), calc(100vw * 9 / 16));
+    width: min(100vw, calc((100vh - 138px - env(safe-area-inset-bottom)) * 16 / 9));
+    height: min(calc(100vh - 138px - env(safe-area-inset-bottom)), calc(100vw * 9 / 16));
     max-width: 100vw;
-    max-height: calc(100vh - 188px - env(safe-area-inset-bottom));
-    border-width: 3px;
-    box-shadow: 0 16px 48px rgba(0,0,0,0.58);
+    max-height: calc(100vh - 138px - env(safe-area-inset-bottom));
   }
 
-  #touch-controls {
+  body.mobile-fight #touch-controls {
     display: block;
     position: fixed;
     left: 0;
     right: 0;
     bottom: 0;
-    height: 168px;
-    padding:
-      8px 16px
-      calc(12px + env(safe-area-inset-bottom))
-      16px;
+    height: 122px;
+    padding: 0 14px calc(10px + env(safe-area-inset-bottom)) 14px;
     pointer-events: none;
     z-index: 20;
   }
@@ -118,49 +117,48 @@ canvas {
   .touch-pad,
   .touch-actions {
     position: absolute;
-    bottom: calc(12px + env(safe-area-inset-bottom));
+    bottom: calc(8px + env(safe-area-inset-bottom));
     pointer-events: auto;
+    height: 96px;
   }
 
   .touch-pad {
-    left: 16px;
-    width: min(38vw, 170px);
-    height: 120px;
+    left: 14px;
+    width: min(32vw, 136px);
   }
 
   .touch-actions {
-    right: 16px;
-    width: min(42vw, 220px);
-    height: 120px;
+    right: 14px;
+    width: min(34vw, 156px);
   }
 
   #touch-controls button {
     position: absolute;
-    width: clamp(52px, 15vw, 76px);
-    height: clamp(52px, 15vw, 76px);
-    border-radius: 18px;
-    border: 3px solid rgba(255,255,255,0.85);
-    background: rgba(16, 18, 28, 0.72);
+    width: clamp(42px, 12.5vw, 58px);
+    height: clamp(42px, 12.5vw, 58px);
+    border-radius: 16px;
+    border: 2px solid rgba(255,255,255,0.82);
+    background: rgba(16, 18, 28, 0.64);
     color: #fff;
     font-weight: 900;
-    font-size: clamp(22px, 6vw, 34px);
+    font-size: clamp(19px, 5vw, 28px);
     line-height: 1;
-    backdrop-filter: blur(8px);
-    box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+    backdrop-filter: blur(6px);
+    box-shadow: 0 6px 16px rgba(0,0,0,0.32);
   }
 
-  .touch-pad .pad-up   { left: 50%; top: 0; transform: translateX(-50%); }
+  .touch-pad .pad-up { left: 50%; top: 0; transform: translateX(-50%); }
   .touch-pad .pad-left { left: 0; bottom: 0; }
   .touch-pad .pad-down { left: 50%; bottom: 0; transform: translateX(-50%); }
-  .touch-pad .pad-right{ right: 0; bottom: 0; }
+  .touch-pad .pad-right { right: 0; bottom: 0; }
 
-  .touch-actions .act-light   { left: 0; bottom: 0; }
-  .touch-actions .act-heavy   { left: 50%; top: 0; transform: translateX(-50%); }
+  .touch-actions .act-light { left: 0; bottom: 0; }
+  .touch-actions .act-heavy { left: 50%; top: 0; transform: translateX(-50%); }
   .touch-actions .act-special { right: 0; bottom: 0; }
 
   #touch-controls button:active {
     transform: scale(0.96);
-    background: rgba(255,255,255,0.22);
+    background: rgba(255,255,255,0.18);
   }
 
   .touch-pad .pad-up:active,
