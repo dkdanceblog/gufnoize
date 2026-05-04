@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+  <title>ГУФ x НОЙЗ — Pixel Fighter</title>
+  <meta property="og:title" content="ГУФ x НОЙЗ — Pixel Fighter" />
+  <meta property="og:description" content="Браузерный пиксельный файтинг для GitHub Pages" />
+  <meta property="og:image" content="assets/ui/title_screen.png" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div id="game-wrap">
+    <canvas id="game" width="1280" height="720"></canvas>
+
+    <div id="touch-controls" aria-label="touch controls">
+      <div class="touch-left">
+        <button data-key="left">←</button>
+        <button data-key="right">→</button>
+        <button data-key="jump">↑</button>
+        <button data-key="crouch">↓</button>
+      </div>
+      <div class="touch-right">
+        <button data-key="light">J</button>
+        <button data-key="heavy">K</button>
+        <button data-key="special">L</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="game.js"></script>
+</body>
+</html>

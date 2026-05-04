@@ -1,0 +1,74 @@
+* {
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+}
+
+html, body {
+  margin: 0;
+  height: 100%;
+  background: #08080d;
+  overflow: hidden;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+#game-wrap {
+  width: 100vw;
+  height: 100vh;
+  display: grid;
+  place-items: center;
+  background:
+    radial-gradient(circle at 50% 10%, rgba(255,255,255,0.08), transparent 35%),
+    linear-gradient(180deg, #151522, #050508);
+  position: relative;
+}
+
+canvas {
+  width: min(100vw, calc(100vh * 16 / 9));
+  height: min(100vh, calc(100vw * 9 / 16));
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+  background: #000;
+  box-shadow: 0 24px 80px rgba(0,0,0,0.65);
+  border: 4px solid #2a2a36;
+}
+
+#touch-controls {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  display: none;
+}
+
+.touch-left,
+.touch-right {
+  position: absolute;
+  bottom: 22px;
+  display: flex;
+  gap: 12px;
+  pointer-events: auto;
+}
+
+.touch-left { left: 22px; }
+.touch-right { right: 22px; }
+
+#touch-controls button {
+  width: 64px;
+  height: 64px;
+  border-radius: 18px;
+  border: 3px solid rgba(255,255,255,0.85);
+  background: rgba(20, 20, 20, 0.58);
+  color: white;
+  font-weight: 900;
+  font-size: 24px;
+  backdrop-filter: blur(8px);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+}
+
+#touch-controls button:active {
+  transform: translateY(2px) scale(0.98);
+  background: rgba(255,255,255,0.22);
+}
+
+@media (pointer: coarse) {
+  #touch-controls { display: block; }
+}

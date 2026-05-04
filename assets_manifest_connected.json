@@ -1,0 +1,311 @@
+[
+  {
+    "path": "README.md"
+  },
+  {
+    "path": "assets/backgrounds/moscow_msu.png",
+    "size": [
+      1672,
+      941
+    ]
+  },
+  {
+    "path": "assets/backgrounds/thailand_beach.png",
+    "size": [
+      1672,
+      941
+    ]
+  },
+  {
+    "path": "assets/effects/dust_jump.png",
+    "size": [
+      96,
+      48
+    ]
+  },
+  {
+    "path": "assets/effects/hit_spark.png",
+    "size": [
+      64,
+      64
+    ]
+  },
+  {
+    "path": "assets/effects/smoke_projectile.png",
+    "size": [
+      128,
+      64
+    ]
+  },
+  {
+    "path": "assets/effects/sound_wave_projectile.png",
+    "size": [
+      128,
+      64
+    ]
+  },
+  {
+    "path": "assets/portraits/guf_portrait.png",
+    "size": [
+      128,
+      128
+    ]
+  },
+  {
+    "path": "assets/portraits/noize_portrait.png",
+    "size": [
+      128,
+      128
+    ]
+  },
+  {
+    "path": "assets/source/dk_dance_logo_source.png",
+    "size": [
+      571,
+      579
+    ]
+  },
+  {
+    "path": "assets/source/guf_sprite_sheet_source.png",
+    "size": [
+      1536,
+      1024
+    ]
+  },
+  {
+    "path": "assets/source/noize_sprite_sheet_source.png",
+    "size": [
+      1536,
+      1024
+    ]
+  },
+  {
+    "path": "assets/sprites/guf_heavy_attack.png",
+    "size": [
+      256,
+      256
+    ]
+  },
+  {
+    "path": "assets/sprites/guf_hurt.png",
+    "size": [
+      256,
+      256
+    ]
+  },
+  {
+    "path": "assets/sprites/guf_idle.png",
+    "size": [
+      256,
+      256
+    ]
+  },
+  {
+    "path": "assets/sprites/guf_jump.png",
+    "size": [
+      256,
+      256
+    ]
+  },
+  {
+    "path": "assets/sprites/guf_light_attack.png",
+    "size": [
+      256,
+      256
+    ]
+  },
+  {
+    "path": "assets/sprites/guf_lose.png",
+    "size": [
+      256,
+      256
+    ]
+  },
+  {
+    "path": "assets/sprites/guf_special.png",
+    "size": [
+      256,
+      256
+    ]
+  },
+  {
+    "path": "assets/sprites/guf_walk_1.png",
+    "size": [
+      256,
+      256
+    ]
+  },
+  {
+    "path": "assets/sprites/guf_walk_2.png",
+    "size": [
+      256,
+      256
+    ]
+  },
+  {
+    "path": "assets/sprites/guf_win.png",
+    "size": [
+      256,
+      256
+    ]
+  },
+  {
+    "path": "assets/sprites/noize_heavy_attack.png",
+    "size": [
+      256,
+      256
+    ]
+  },
+  {
+    "path": "assets/sprites/noize_hurt.png",
+    "size": [
+      256,
+      256
+    ]
+  },
+  {
+    "path": "assets/sprites/noize_idle.png",
+    "size": [
+      256,
+      256
+    ]
+  },
+  {
+    "path": "assets/sprites/noize_jump.png",
+    "size": [
+      256,
+      256
+    ]
+  },
+  {
+    "path": "assets/sprites/noize_light_attack.png",
+    "size": [
+      256,
+      256
+    ]
+  },
+  {
+    "path": "assets/sprites/noize_lose.png",
+    "size": [
+      256,
+      256
+    ]
+  },
+  {
+    "path": "assets/sprites/noize_special.png",
+    "size": [
+      256,
+      256
+    ]
+  },
+  {
+    "path": "assets/sprites/noize_walk_1.png",
+    "size": [
+      256,
+      256
+    ]
+  },
+  {
+    "path": "assets/sprites/noize_walk_2.png",
+    "size": [
+      256,
+      256
+    ]
+  },
+  {
+    "path": "assets/sprites/noize_win.png",
+    "size": [
+      256,
+      256
+    ]
+  },
+  {
+    "path": "assets/title/title_screen.png",
+    "size": [
+      1280,
+      720
+    ]
+  },
+  {
+    "path": "assets/ui/button_frame.png",
+    "size": [
+      120,
+      60
+    ]
+  },
+  {
+    "path": "assets/ui/character_select_frame.png",
+    "size": [
+      220,
+      220
+    ]
+  },
+  {
+    "path": "assets/ui/hp_bar_frame.png",
+    "size": [
+      300,
+      30
+    ]
+  },
+  {
+    "path": "assets/ui/menu_panel.png",
+    "size": [
+      400,
+      200
+    ]
+  },
+  {
+    "path": "assets/ui/round_indicator_active.png",
+    "size": [
+      20,
+      20
+    ]
+  },
+  {
+    "path": "assets/ui/round_indicator_gray.png",
+    "size": [
+      20,
+      20
+    ]
+  },
+  {
+    "path": "assets/ui/round_indicator_yellow.png",
+    "size": [
+      20,
+      20
+    ]
+  },
+  {
+    "path": "assets/ui/stage_select_frame.png",
+    "size": [
+      350,
+      220
+    ]
+  },
+  {
+    "path": "assets/ui/timer_frame.png",
+    "size": [
+      100,
+      50
+    ]
+  },
+  {
+    "path": "assets/ui/title_screen.png",
+    "size": [
+      1280,
+      720
+    ]
+  },
+  {
+    "path": "assets_manifest.json"
+  },
+  {
+    "path": "game.js"
+  },
+  {
+    "path": "index.html"
+  },
+  {
+    "path": "style.css"
+  }
+]
