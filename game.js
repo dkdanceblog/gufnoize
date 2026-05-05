@@ -111,9 +111,17 @@ const audioEls = {
   specialGuf: document.getElementById("sfx-special-guf"),
   specialNoize: document.getElementById("sfx-special-noize"),
   battleMusic: document.getElementById("battle-music"),
+  menuSelect: document.getElementById("sfx-menu-select"),
 };
 
 let audioUnlocked = false;
+
+function getAudioVolume(name) {
+  if (name === "battleMusic") return 0.18;
+  if (name === "specialGuf" || name === "specialNoize") return 0.48;
+  if (name === "menuSelect") return 0.62;
+  return 0.85;
+}
 
 function unlockAudio() {
   if (audioUnlocked) return;
@@ -129,7 +137,7 @@ function unlockAudio() {
 
     try {
       el.load();
-      el.volume = key === "battleMusic" ? 0.18 : 0.85;
+      el.volume = getAudioVolume(key);
 
       if (key === "battleMusic") {
         console.log("[AUDIO] music loaded:", key, el.currentSrc || el.src);
@@ -176,7 +184,7 @@ function playSound(name) {
   try {
     el.pause();
     el.currentTime = 0;
-    el.volume = name === "battleMusic" ? 0.18 : 0.85;
+    el.volume = getAudioVolume(name);
     el.play().catch((err) => {
       console.warn("[AUDIO] play failed:", name, el.currentSrc || el.src, err);
     });
@@ -353,6 +361,7 @@ function startMatch() {
 
 function chooseStageAndStart(stageId) {
   unlockAudio();
+  playSound("menuSelect");
   GAME.selectedStage = stageId;
   startMatch();
   GAME.state = "fight";
@@ -1314,16 +1323,19 @@ window.addEventListener("keydown", (e) => {
   }
 
   if (GAME.state === "title" && e.key === "Enter") {
+    playSound("menuSelect");
     GAME.state = "character";
     return;
   }
 
   if (GAME.state === "character") {
     if (e.code === "Digit1" || k === "1") {
+      playSound("menuSelect");
       GAME.selectedPlayer = "guf";
       GAME.state = "stage";
     }
     if (e.code === "Digit2" || k === "2") {
+      playSound("menuSelect");
       GAME.selectedPlayer = "noize";
       GAME.state = "stage";
     }
@@ -1351,6 +1363,7 @@ window.addEventListener("keydown", (e) => {
   if (GAME.state === "end") {
     if (e.key === "Enter") {
       unlockAudio();
+      playSound("menuSelect");
       startMatch();
       GAME.state = "fight";
       startBattleMusic();
@@ -1403,16 +1416,19 @@ canvas.addEventListener("click", (e) => {
   const y = (e.clientY - rect.top) * sy;
 
   if (GAME.state === "title") {
+    playSound("menuSelect");
     GAME.state = "character";
     return;
   }
 
   if (GAME.state === "character") {
     if (x > 220 && x < 550 && y > 155 && y < 585) {
+      playSound("menuSelect");
       GAME.selectedPlayer = "guf";
       GAME.state = "stage";
     }
     if (x > 730 && x < 1060 && y > 155 && y < 585) {
+      playSound("menuSelect");
       GAME.selectedPlayer = "noize";
       GAME.state = "stage";
     }
