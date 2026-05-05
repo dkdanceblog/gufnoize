@@ -118,8 +118,8 @@ let audioUnlocked = false;
 
 function getAudioVolume(name) {
   if (name === "battleMusic") return 0.18;
-  if (name === "specialGuf" || name === "specialNoize") return 0.48;
-  if (name === "menuSelect") return 0.62;
+  if (name === "specialGuf" || name === "specialNoize") return 0.32;
+  if (name === "menuSelect") return 0.82;
   return 0.85;
 }
 
@@ -127,7 +127,7 @@ function unlockAudio() {
   if (audioUnlocked) return;
   audioUnlocked = true;
 
-  console.log("[AUDIO] unlock via HTML audio elements");
+  console.log("[AUDIO] unlocked via user gesture");
 
   for (const [key, el] of Object.entries(audioEls)) {
     if (!el) {
@@ -136,35 +136,12 @@ function unlockAudio() {
     }
 
     try {
-      el.load();
       el.volume = getAudioVolume(key);
-
-      if (key === "battleMusic") {
-        console.log("[AUDIO] music loaded:", key, el.currentSrc || el.src);
-        continue;
-      }
-
-      // unlock SFX by muted play/pause inside user gesture
-      el.muted = true;
-      const p = el.play();
-      if (p && typeof p.then === "function") {
-        p.then(() => {
-          el.pause();
-          el.currentTime = 0;
-          el.muted = false;
-          console.log("[AUDIO] ready:", key, el.currentSrc || el.src);
-        }).catch((err) => {
-          el.muted = false;
-          console.warn("[AUDIO] unlock failed:", key, el.currentSrc || el.src, err);
-        });
-      } else {
-        el.pause();
-        el.currentTime = 0;
-        el.muted = false;
-      }
-    } catch (err) {
       el.muted = false;
-      console.warn("[AUDIO] unlock exception:", key, err);
+      el.load();
+      console.log("[AUDIO] loaded:", key, el.currentSrc || el.src);
+    } catch (err) {
+      console.warn("[AUDIO] load exception:", key, err);
     }
   }
 }
@@ -190,6 +167,29 @@ function playSound(name) {
     });
   } catch (err) {
     console.warn("[AUDIO] play exception:", name, err);
+  }
+}
+
+function playMenuSelect() {
+  unlockAudio();
+  const el = audioEls.menuSelect;
+  if (!el) {
+    console.warn("[AUDIO] menuSelect element missing");
+    return;
+  }
+
+  try {
+    el.pause();
+    el.currentTime = 0;
+    el.volume = getAudioVolume("menuSelect");
+    console.log("[AUDIO] trying menu_select:", el.currentSrc || el.src, "readyState=", el.readyState);
+    el.play().then(() => {
+      console.log("[AUDIO] menu_select playing");
+    }).catch((err) => {
+      console.warn("[AUDIO] menu_select failed:", el.currentSrc || el.src, err);
+    });
+  } catch (err) {
+    console.warn("[AUDIO] menu_select exception:", err);
   }
 }
 
@@ -361,7 +361,7 @@ function startMatch() {
 
 function chooseStageAndStart(stageId) {
   unlockAudio();
-  playSound("menuSelect");
+  playMenuSelect();
   GAME.selectedStage = stageId;
   startMatch();
   GAME.state = "fight";
@@ -1323,19 +1323,19 @@ window.addEventListener("keydown", (e) => {
   }
 
   if (GAME.state === "title" && e.key === "Enter") {
-    playSound("menuSelect");
+    playMenuSelect();
     GAME.state = "character";
     return;
   }
 
   if (GAME.state === "character") {
     if (e.code === "Digit1" || k === "1") {
-      playSound("menuSelect");
+      playMenuSelect();
       GAME.selectedPlayer = "guf";
       GAME.state = "stage";
     }
     if (e.code === "Digit2" || k === "2") {
-      playSound("menuSelect");
+      playMenuSelect();
       GAME.selectedPlayer = "noize";
       GAME.state = "stage";
     }
@@ -1363,7 +1363,7 @@ window.addEventListener("keydown", (e) => {
   if (GAME.state === "end") {
     if (e.key === "Enter") {
       unlockAudio();
-      playSound("menuSelect");
+      playMenuSelect();
       startMatch();
       GAME.state = "fight";
       startBattleMusic();
@@ -1416,19 +1416,19 @@ canvas.addEventListener("click", (e) => {
   const y = (e.clientY - rect.top) * sy;
 
   if (GAME.state === "title") {
-    playSound("menuSelect");
+    playMenuSelect();
     GAME.state = "character";
     return;
   }
 
   if (GAME.state === "character") {
     if (x > 220 && x < 550 && y > 155 && y < 585) {
-      playSound("menuSelect");
+      playMenuSelect();
       GAME.selectedPlayer = "guf";
       GAME.state = "stage";
     }
     if (x > 730 && x < 1060 && y > 155 && y < 585) {
-      playSound("menuSelect");
+      playMenuSelect();
       GAME.selectedPlayer = "noize";
       GAME.state = "stage";
     }
