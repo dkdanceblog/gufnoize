@@ -1,8 +1,0 @@
-Положи сюда эти файлы:
-
-hit_light.wav
-hit_heavy.wav
-special_guf.wav
-special_noize.wav
-
-Код уже подключает именно эти имена.

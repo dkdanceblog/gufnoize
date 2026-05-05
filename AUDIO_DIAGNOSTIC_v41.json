@@ -1,0 +1,16 @@
+{
+  "node_check": 0,
+  "audio_missing_inside_zip": [
+    "assets/audio/hit_light.mp3",
+    "assets/audio/hit_heavy.mp3",
+    "assets/audio/special_guf.mp3",
+    "assets/audio/special_noize.mp3",
+    "assets/audio/battle_music.mp3"
+  ],
+  "controls": {
+    "movement_keyboard": "Arrow keys, Space jump",
+    "attacks_keyboard": "A light, S heavy, D special",
+    "mobile_buttons": "A/S/D labels"
+  },
+  "music_debug": "Press M during the page after first interaction to test battle_music.mp3."
+}

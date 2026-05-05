@@ -1,0 +1,1 @@
+v34: inserted regenerated kettle and guitar projectile assets into the game archive. Kettle is larger and Chinese-style. Guitar is larger and now rotates much more slowly during flight. Projectile sizes and speeds were tuned to match the new art.

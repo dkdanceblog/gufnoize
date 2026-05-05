@@ -1,0 +1,48 @@
+{
+  "errors": [],
+  "warnings": [
+    "Audio files missing from archive; expected user upload: assets/audio/battle_music.mp3, assets/audio/hit_heavy.mp3, assets/audio/hit_light.mp3, assets/audio/special_guf.mp3, assets/audio/special_noize.mp3",
+    "Found resetRound()+fight transition; should usually be startMatch/chooseStageAndStart"
+  ],
+  "diagnostics": [
+    "JS syntax: OK",
+    "index.html: OK",
+    "style.css: OK",
+    "game.js: OK",
+    "JS asset paths: OK (39 files checked)",
+    "chooseStageAndStart exists: OK",
+    "startMatch exists: OK",
+    "AI_PRESETS exists: OK",
+    "pickRandomBotDifficulty exists: OK",
+    "KO finish exists: OK",
+    "Best-of-3 finish check exists: OK",
+    "Round increment exists: OK",
+    "Robust stage tap exists: OK",
+    "Mobile controls visibility exists: OK",
+    "HTML audio hookup exists: OK",
+    "No old fallbackTone/createOscillator: OK",
+    "Game loop: OK"
+  ],
+  "event_counts": {
+    "canvas_click": 1,
+    "keydown": 1,
+    "keyup": 1,
+    "touch_buttons": 1,
+    "requestAnimationFrame_loop": 2
+  },
+  "audio_paths_expected": [
+    "assets/audio/battle_music.mp3",
+    "assets/audio/hit_heavy.mp3",
+    "assets/audio/hit_light.mp3",
+    "assets/audio/special_guf.mp3",
+    "assets/audio/special_noize.mp3"
+  ],
+  "missing_audio": [
+    "assets/audio/battle_music.mp3",
+    "assets/audio/hit_heavy.mp3",
+    "assets/audio/hit_light.mp3",
+    "assets/audio/special_guf.mp3",
+    "assets/audio/special_noize.mp3"
+  ],
+  "checked_asset_count": 39
+}

@@ -167,3 +167,15 @@ canvas {
     transform: translateX(-50%) scale(0.96);
   }
 }
+
+
+/* ===== v29 mobile controls safety ===== */
+#touch-controls {
+  display: none;
+}
+
+@media (pointer: coarse) {
+  body.mobile-fight #touch-controls {
+    display: block;
+  }
+}

@@ -22,12 +22,20 @@
       </div>
 
       <div class="touch-actions" aria-label="attack controls">
-        <button class="act-light" data-key="light">J</button>
-        <button class="act-heavy" data-key="heavy">K</button>
-        <button class="act-special" data-key="special">L</button>
+        <button class="act-light" data-key="light">A</button>
+        <button class="act-heavy" data-key="heavy">S</button>
+        <button class="act-special" data-key="special">D</button>
       </div>
     </div>
   </div>
+
+
+  <!-- Audio: HTML elements, like the working reference game -->
+  <audio id="sfx-hit-light" src="assets/audio/hit_light.mp3" preload="auto"></audio>
+  <audio id="sfx-hit-heavy" src="assets/audio/hit_heavy.mp3" preload="auto"></audio>
+  <audio id="sfx-special-guf" src="assets/audio/special_guf.mp3" preload="auto"></audio>
+  <audio id="sfx-special-noize" src="assets/audio/special_noize.mp3" preload="auto"></audio>
+  <audio id="battle-music" src="assets/audio/battle_music.mp3" loop preload="auto"></audio>
 
   <script src="game.js"></script>
 </body>
